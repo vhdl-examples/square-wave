@@ -57,27 +57,24 @@ begin
 
         wait until falling_edge(clk);
         assert wave = '1' report "wave is not on";
-        wait until rising_edge(clk);
-        wait until rising_edge(clk);
-        wait until rising_edge(clk);
-        wait until rising_edge(clk);
-        wait until rising_edge(clk); -- 100 ns
+        wait until falling_edge(clk);
+        wait until falling_edge(clk);
+        wait until falling_edge(clk);
+        wait until falling_edge(clk); -- 100 ns
 
         wait until falling_edge(clk);
         assert wave = '1' report "wave is not on";
-        wait until rising_edge(clk);
-        wait until rising_edge(clk);
-        wait until rising_edge(clk);
-        wait until rising_edge(clk);
-        wait until rising_edge(clk); -- 200 ns
+        wait until falling_edge(clk);
+        wait until falling_edge(clk);
+        wait until falling_edge(clk);
+        wait until falling_edge(clk); -- 200 ns
 
         wait until falling_edge(clk);
         assert wave = '0' report "wave is not off";
-        wait until rising_edge(clk);
-        wait until rising_edge(clk);
-        wait until rising_edge(clk);
-        wait until rising_edge(clk);
-        wait until rising_edge(clk); -- 300 ns
+        wait until falling_edge(clk);
+        wait until falling_edge(clk);
+        wait until falling_edge(clk);
+        wait until falling_edge(clk); -- 300 ns
 
         wait until falling_edge(clk);
         assert wave = '1' report "wave is not on";
