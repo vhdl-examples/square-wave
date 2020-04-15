@@ -11,24 +11,24 @@ end tb_square_wave;
 
 architecture Behavioral of tb_square_wave is
     component square_wave is
-        generic (MAX_PERIOD: integer;
-                 CLOCK_DIV: integer);
+        generic (MAX_PERIOD: positive;
+                 CLOCK_DIV: positive);
 
         port (clk: in std_logic;
-              on_period:  in integer;
-              off_period: in integer;
+              reset: in std_logic;
+              on_period, off_period: in natural;
+              off_period: in natural;
               wave: out std_logic);
     end component;
 
-    constant MAX_PERIOD: integer := 15;
-    constant CLOCK_DIV: integer := 5;
+    constant MAX_PERIOD: positive := 15;
+    constant CLOCK_DIV: positive := 5;
 
-    signal clk : std_logic;
-    signal on_period:  integer range 0 to MAX_PERIOD;
-    signal off_period: integer range 0 to MAX_PERIOD;
+    signal clk, reset: std_logic;
+    signal on_period, off_period: natural range 0 to MAX_PERIOD;
     signal wave: std_logic;
 
-    constant T : time := 20 ns;
+    constant T: time := 20 ns;
 begin
 
     clock_generation : process
@@ -45,6 +45,7 @@ begin
             CLOCK_DIV => CLOCK_DIV)
         port map (
             clk => clk,
+            reset => reset,
             on_period => on_period,
             off_period => off_period,
             wave => wave);
@@ -52,29 +53,32 @@ begin
     tb: process
     begin
         test_runner_setup(runner, runner_cfg);
+        wait until falling_edge(clk);
         on_period  <= 2;
         off_period <= 1;
+        reset <= '1';
+        wait until falling_edge(clk);
+        assert wave = '1' report "wave is not on";
+        reset <= '0';
+        wait until falling_edge(clk);
+        wait until falling_edge(clk);
+        wait until falling_edge(clk);
+        wait until falling_edge(clk);
+        wait until falling_edge(clk);
 
         wait until falling_edge(clk);
         assert wave = '1' report "wave is not on";
         wait until falling_edge(clk);
         wait until falling_edge(clk);
         wait until falling_edge(clk);
-        wait until falling_edge(clk); -- 100 ns
-
         wait until falling_edge(clk);
-        assert wave = '1' report "wave is not on";
-        wait until falling_edge(clk);
-        wait until falling_edge(clk);
-        wait until falling_edge(clk);
-        wait until falling_edge(clk); -- 200 ns
 
         wait until falling_edge(clk);
         assert wave = '0' report "wave is not off";
         wait until falling_edge(clk);
         wait until falling_edge(clk);
         wait until falling_edge(clk);
-        wait until falling_edge(clk); -- 300 ns
+        wait until falling_edge(clk);
 
         wait until falling_edge(clk);
         assert wave = '1' report "wave is not on";
