@@ -17,7 +17,6 @@ architecture Behavioral of tb_square_wave is
         port (clk: in std_logic;
               reset: in std_logic;
               on_period, off_period: in natural;
-              off_period: in natural;
               wave: out std_logic);
     end component;
 
