@@ -7,6 +7,6 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v2
       - name: Run VUnit tests
-        uses: MarcoIeni/vunit-action@v0.1.2
+        uses: VUnit/vunit_action@v0.1.0
         with:
           run_file: run.py
